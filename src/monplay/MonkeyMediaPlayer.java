@@ -12,7 +12,6 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
-import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 public class MonkeyMediaPlayer {
 	
@@ -68,7 +67,8 @@ public class MonkeyMediaPlayer {
 	
 	public static void discover() {
 		if (!new NativeDiscovery().discover()) {
-			NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files (x86)\\VideoLAN\\VLC");
+			NativeLibrary.addSearchPath("libvlc", "C:\\Program Files (x86)\\VideoLAN\\VLC");
+			System.setProperty("jna.library.path", "C:\\Program Files (x86)\\VideoLAN\\VLC");
 		}
 	}
 }
