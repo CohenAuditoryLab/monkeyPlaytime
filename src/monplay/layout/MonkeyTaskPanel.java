@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import monplay.PanelType;
 import monplay.Playtime.NavController;
 
 /**
@@ -30,7 +29,7 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 	 * @param c navigation controller to lock and unlock
 	 */
 	public MonkeyTaskPanel(NavController c) {
-		super(PanelType.TASK, c, 2, 2);
+		super(MonkeyPanelType.TASK, c, 2, 2);
 
 		// tone button
 		JButton tone = new JButton(t.getIcon());

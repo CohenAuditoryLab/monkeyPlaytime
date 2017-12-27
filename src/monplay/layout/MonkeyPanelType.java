@@ -1,4 +1,4 @@
-package monplay;
+package monplay.layout;
 
 import java.awt.Image;
 import java.io.BufferedReader;
@@ -8,6 +8,9 @@ import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
+import monplay.MonkeyMediaPlayer;
+import monplay.Playtime;
 
 /**
  * Encapsulates information for different media types, including icons and media
@@ -19,7 +22,7 @@ import javax.swing.ImageIcon;
  * @see MonkeyPanel
  * @see MonkeyMediaPlayer
  */
-public enum PanelType {
+public enum MonkeyPanelType {
 	AUDIO("triangle.png", new String[5]), 
 	VIDEO("square.png", new String[5]), 
 	TASK("circle.png", new String[2]);
@@ -29,21 +32,21 @@ public enum PanelType {
 	private final String[] media;
 
 	/**
-	 * Creates a new {@code PanelType} given an icon file and initialized array
+	 * Creates a new {@code MonkeyPanelType} given an icon file and initialized array
 	 * of media files.
 	 * 
 	 * @param fileName name of image file for button icons
 	 * @param media media file names, initially empty
 	 */
-	private PanelType(String fileName, String[] media) {
+	private MonkeyPanelType(String fileName, String[] media) {
 		this.icon = fileName;
 		this.media = media;
 	}
 
 	/**
-	 * Returns the icon associated with the {@code PanelType}.
+	 * Returns the icon associated with the {@code MonkeyPanelType}.
 	 * 
-	 * @return icon associated with {@code PanelType}
+	 * @return icon associated with {@code MonkeyPanelType}
 	 */
 	public Icon getIcon() {
 		Image img = new ImageIcon(Playtime.class.getResource("/" + icon)).getImage();
@@ -60,7 +63,7 @@ public enum PanelType {
 	public void playMedia(int i, Playtime.NavController c) {
 		c.setEnabled(false);
 		String mediaFile = new File("media/" + media[i]).getAbsolutePath();
-		if (this.equals(PanelType.VIDEO)) {
+		if (this.equals(MonkeyPanelType.VIDEO)) {
 			MonkeyMediaPlayer.playVideo(mediaFile, c);
 		} else {
 			MonkeyMediaPlayer.playAudio(mediaFile, c);
@@ -68,13 +71,13 @@ public enum PanelType {
 	}
 
 	/**
-	 * Returns the {@code PanelType} associated with the given tab index.
+	 * Returns the {@code MonkeyPanelType} associated with the given tab index.
 	 * 
 	 * @param i tab index
-	 * @return {@code PanelType} associated with the index
+	 * @return {@code MonkeyPanelType} associated with the index
 	 * @throws IllegalArgumentException if there is given an invalid tab index
 	 */
-	public static PanelType getType(int i) {
+	public static MonkeyPanelType getType(int i) {
 		if (i == 1) {
 			return AUDIO;
 		} else if (i == 2) {
@@ -92,10 +95,10 @@ public enum PanelType {
 	 * 
 	 * @throws IOException if there is an error in reading
 	 */
-	static void setup() throws IOException {
+	public static void setup() throws IOException {
 		BufferedReader r = new BufferedReader(new FileReader("media/mediaFiles.txt"));
 		r.readLine();
-		for (PanelType t : new PanelType[] { AUDIO, VIDEO, TASK }) {
+		for (MonkeyPanelType t : new MonkeyPanelType[] { AUDIO, VIDEO, TASK }) {
 			for (int i = 0; i < t.media.length; i++) {
 				t.media[i] = r.readLine().trim();
 			}

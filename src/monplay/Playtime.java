@@ -13,13 +13,14 @@ import javax.swing.SwingUtilities;
 
 import monplay.layout.MonkeyMediaPanel;
 import monplay.layout.MonkeyPanel;
+import monplay.layout.MonkeyPanelType;
 import monplay.layout.MonkeyTaskPanel;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 /**
  * <p>
  * The {@code Playtime} class is a {@code Runnable} that initializes media
- * variables in {@code PanelType}, discovers native dependencies for media
+ * variables in {@code MonkeyPanelType}, discovers native dependencies for media
  * playback using {@code NativeDiscovery}, and creates and shows the GUI using
  * {@code JTabbedPane}.
  * </p>
@@ -49,7 +50,7 @@ public class Playtime implements Runnable {
 		// add buttons to home tab
 		for (int i = 0; i < 3; i++) {
 			int index = i + 1;
-			JButton temp = new JButton(PanelType.getType(index).getIcon());
+			JButton temp = new JButton(MonkeyPanelType.getType(index).getIcon());
 			temp.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -69,7 +70,7 @@ public class Playtime implements Runnable {
 			if (i == 3) {
 				panel = new MonkeyTaskPanel(nav);
 			} else {
-				panel = new MonkeyMediaPanel(PanelType.getType(i), nav);
+				panel = new MonkeyMediaPanel(MonkeyPanelType.getType(i), nav);
 			}
 			tabbedPane.addTab(panel.getName(), panel);
 		}
@@ -84,7 +85,7 @@ public class Playtime implements Runnable {
 
 	public static void main(String[] args) {
 		try {
-			PanelType.setup(); // setup media files
+			MonkeyPanelType.setup(); // setup media files
 			new NativeDiscovery().discover(); // discover vlcj dependencies
 			SwingUtilities.invokeLater(new Playtime()); // create and show app
 		} catch (IOException e) {

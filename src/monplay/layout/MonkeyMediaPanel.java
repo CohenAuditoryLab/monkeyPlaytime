@@ -5,12 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import monplay.PanelType;
 import monplay.Playtime.NavController;
 
 /**
  * {@code MonkeyMediaPanel} is a {@code MonkeyPanel} setup for a 2-by-3 grid of
- * audio or video buttons. It uses a {@code GridLayout} and {@code PanelType} to
+ * audio or video buttons. It uses a {@code GridLayout} and {@code MonkeyPanelType} to
  * specify the appearance and behavior of buttons.
  * 
  * @author marsalad
@@ -27,9 +26,9 @@ public class MonkeyMediaPanel extends MonkeyPanel {
 	 * @param c navigation controller to lock and unlock
 	 * @throws IllegalArgumentException if {@code t} is set to {@code TASK}
 	 */
-	public MonkeyMediaPanel(PanelType t, NavController c) {
+	public MonkeyMediaPanel(MonkeyPanelType t, NavController c) {
 		super(t, c, 2, 3);
-		if (t.equals(PanelType.TASK)) {
+		if (t.equals(MonkeyPanelType.TASK)) {
 			throw new IllegalArgumentException();
 		}
 		for (int i = 1; i < 6; i++) {

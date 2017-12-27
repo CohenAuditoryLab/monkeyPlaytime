@@ -8,22 +8,21 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import monplay.PanelType;
 import monplay.Playtime.NavController;
 
 /**
  * {@code MonkeyPanel} is a lightweight {@code JPanel} with additional
  * functionality for the {@code Playtime} app. It uses a {@code GridLayout} and
- * {@code PanelType} to specify the appearance and behavior of buttons.
+ * {@code MonkeyPanelType} to specify the appearance and behavior of buttons.
  * 
  * @author marsalad
  * @see JPanel
- * @see PanelType
+ * @see MonkeyPanelType
  * @see Playtime
  */
 @SuppressWarnings("serial")
 public abstract class MonkeyPanel extends JPanel {
-	final PanelType t;
+	final MonkeyPanelType t;
 	final NavController c;
 
 	/**
@@ -35,7 +34,7 @@ public abstract class MonkeyPanel extends JPanel {
 	 * @param height number of buttons in grid vertically
 	 * @param width number of buttons in grid horizontally
 	 */
-	public MonkeyPanel(PanelType t, NavController c, int height, int width) {
+	public MonkeyPanel(MonkeyPanelType t, NavController c, int height, int width) {
 		this.c = c;
 		this.t = t;
 		setLayout(new GridLayout(height, width));
@@ -43,7 +42,7 @@ public abstract class MonkeyPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the name of the panel, which is the same as the {@code PanelType}.
+	 * Returns the name of the panel, which is the same as the {@code MonkeyPanelType}.
 	 * 
 	 * @return name of panel
 	 */
