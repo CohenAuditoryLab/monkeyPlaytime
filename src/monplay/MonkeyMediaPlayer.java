@@ -55,7 +55,7 @@ public class MonkeyMediaPlayer {
                 frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 frame.setVisible(true);
                 
-                mediaPlayerComponent.getMediaPlayer().playMedia("resources/test.mp4");
+                mediaPlayerComponent.getMediaPlayer().playMedia(fileName);
             }
         });
 	}

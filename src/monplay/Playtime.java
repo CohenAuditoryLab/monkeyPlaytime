@@ -3,6 +3,7 @@ package monplay;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -57,11 +58,17 @@ public class Playtime implements Runnable {
 		frame.add(tabbedPane);
 		frame.pack();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Playtime());
+		try {
+			PanelType.setup();
+			SwingUtilities.invokeLater(new Playtime());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public class NavController {

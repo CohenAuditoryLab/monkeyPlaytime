@@ -1,34 +1,39 @@
 package monplay;
 
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public enum PanelType {
-	AUDIO ("triangle.png", new String[] {"lo.mp3", "lo.mp3", "lo.mp3", "lo.mp3", "lo.mp3"}), 
-	VIDEO ("square.png",   new String[] {"test.mp4", "test.mp4", "test.mp4", "test.mp4", "test.mp4"}), 
-	TASK  ("circle.png",   new String[] {"lo.mp3", "hi.mp3"});
+	AUDIO ("triangle.png", new String[5]), 
+	VIDEO ("square.png",   new String[5]), 
+	TASK  ("circle.png",   new String[2]);
 	
 	private static final int DIM = 500;
-	private final String fileName;
+	private final String icon;
 	private final String[] media;
 	private PanelType(String fileName, String[] media) {
-		this.fileName = fileName;
+		this.icon = fileName;
 		this.media = media;
 	}
 	
 	public Icon getIcon() {
-		Image img = new ImageIcon("resources/" + fileName).getImage() ;  
+		Image img = new ImageIcon(Playtime.class.getResource("/" + icon)).getImage() ;  
 	    Image scaled = img.getScaledInstance(DIM, DIM, java.awt.Image.SCALE_SMOOTH) ;  
 	    return new ImageIcon(scaled);
 	}
 	
 	public void playMedia(int i, Playtime.NavController c) {
+		String mediaFile = new File("media/" + media[i]).getAbsolutePath();
 		if (this.equals(PanelType.VIDEO)) {
-			MonkeyMediaPlayer.playVideo("resources/" + media[i], c);
+			MonkeyMediaPlayer.playVideo(mediaFile, c);
 		} else {
-			MonkeyMediaPlayer.playAudio("resources/" + media[i], c);
+			MonkeyMediaPlayer.playAudio(mediaFile, c);
 		}
 	}
 	
@@ -42,5 +47,18 @@ public enum PanelType {
 		} else {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	static void setup() throws IOException {
+		BufferedReader r = new BufferedReader(new FileReader("media/mediaFiles.txt"));
+		r.readLine();
+		for (PanelType t : new PanelType[] {AUDIO, VIDEO, TASK}) {
+			for (int i = 0; i < t.media.length; i++) {
+				t.media[i] = r.readLine().trim();
+			}
+			r.readLine();
+			r.readLine();
+		}
+		r.close();
 	}
 }
