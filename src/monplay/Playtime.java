@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import monplay.layout.MonkeyMediaPanel;
 import monplay.layout.MonkeyPanel;
 import monplay.layout.MonkeyTaskPanel;
+import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 public class Playtime implements Runnable {
 	private final JFrame frame = new JFrame();
@@ -65,7 +66,7 @@ public class Playtime implements Runnable {
 	public static void main(String[] args) {
 		try {
 			PanelType.setup();
-			MonkeyMediaPlayer.discover();
+			new NativeDiscovery().discover();
 			SwingUtilities.invokeLater(new Playtime());
 		} catch (IOException e) {
 			e.printStackTrace();
