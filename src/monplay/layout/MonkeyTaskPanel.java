@@ -22,7 +22,6 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (c.isEnabled()) {
-					c.setEnabled(false);
 					toneLevel = ThreadLocalRandom.current().nextInt(0, 2);
 					t.playMedia(toneLevel, c);
 				}

@@ -19,7 +19,6 @@ public class MonkeyMediaPanel extends MonkeyPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (c.isEnabled()) {
-						c.setEnabled(false);
 						t.playMedia(index, c);
 					}
 				}

@@ -2,7 +2,7 @@
 NHP enrichment app for playing audio, video, and mini games.
 
 ### Dependencies
-64-bit versions of the following programs, installed in their default locations.
+64-bit versions of the following programs, installed in their default locations:
 - Java JDK
 - VLC
 
