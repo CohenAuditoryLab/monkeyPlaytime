@@ -5,16 +5,19 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.sun.jna.NativeLibrary;
+
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 public class MonkeyMediaPlayer {
 	
 	public static void playAudio(String fileName, Playtime.NavController c) {
-        AudioMediaPlayerComponent mediaPlayerComponent = new AudioMediaPlayerComponent();
+		AudioMediaPlayerComponent mediaPlayerComponent = new AudioMediaPlayerComponent();
         mediaPlayerComponent.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 			@Override
 			public void finished(MediaPlayer mediaPlayer) {
@@ -30,8 +33,7 @@ public class MonkeyMediaPlayer {
 	}
 	
 	public static void playVideo(String fileName, Playtime.NavController c) {
-		new NativeDiscovery().discover();
-        SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
             	JFrame frame = new JFrame();
@@ -62,5 +64,11 @@ public class MonkeyMediaPlayer {
 	
 	public static void displayError() {
 		System.out.println("Error playing media");
+	}
+	
+	public static void discover() {
+		if (!new NativeDiscovery().discover()) {
+			NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files (x86)\\VideoLAN\\VLC");
+		}
 	}
 }

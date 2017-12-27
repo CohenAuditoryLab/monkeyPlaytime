@@ -65,6 +65,7 @@ public class Playtime implements Runnable {
 	public static void main(String[] args) {
 		try {
 			PanelType.setup();
+			MonkeyMediaPlayer.discover();
 			SwingUtilities.invokeLater(new Playtime());
 		} catch (IOException e) {
 			e.printStackTrace();
