@@ -55,13 +55,12 @@ public enum MonkeyPanelType {
 	}
 
 	/**
-	 * Plays the media with the given index. Locks the app prior to playback.
+	 * Plays the media with the given index.
 	 * 
 	 * @param i media index
 	 * @param c navigation controller to unlock
 	 */
 	public void playMedia(int i, Playtime.NavController c) {
-		c.setEnabled(false);
 		String mediaFile = new File("media/" + media[i]).getAbsolutePath();
 		if (this.equals(MonkeyPanelType.VIDEO)) {
 			MonkeyMediaPlayer.playVideo(mediaFile, c);

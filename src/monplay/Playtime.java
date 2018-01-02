@@ -16,6 +16,7 @@ import monplay.layout.MonkeyPanel;
 import monplay.layout.MonkeyPanelType;
 import monplay.layout.MonkeyTaskPanel;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
+import uk.co.caprica.vlcj.player.MediaPlayer;
 
 /**
  * <p>
@@ -26,10 +27,10 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
  * </p>
  * 
  * <p>
- * The app can be locked and unlocked to disable input during playback and users
- * can freely navigate between the home tab and media/task tabs. It includes an
- * inner class {@code NavController} to safely manage this functionality within
- * external classes.
+ * The app is locked to disable input during playback and users can freely
+ * navigate between the home tab and media/task tabs. It includes an inner class
+ * {@code NavController} to safely manage this functionality within external
+ * classes.
  * </p>
  * 
  * @author marsalad
@@ -40,7 +41,6 @@ public class Playtime implements Runnable {
 	private final JFrame frame = new JFrame(); // main component frame, contains tabbedPane
 	private final JTabbedPane tabbedPane = new JTabbedPane(); // tabs for different pages
 	private final NavController nav = new NavController(); // navigation controller to pass
-	private boolean enabled = true; // managed by nav; is the app unlocked?
 
 	@Override
 	public void run() {
@@ -101,23 +101,26 @@ public class Playtime implements Runnable {
 	 * @author marsalad
 	 */
 	public class NavController {
+		MediaPlayer mediaPlayer;
 
 		/**
-		 * Returns if the app is unlocked or not.
+		 * Returns if the app is unlocked or not. The app is unlocked if there is no
+		 * media currently being played.
 		 * 
 		 * @return {@code true} if the app is unlocked; otherwise {@code false}
 		 */
 		public boolean isEnabled() {
-			return enabled;
+			return mediaPlayer == null || !mediaPlayer.isPlaying();
 		}
 
 		/**
-		 * Locks or unlocks the app, depending on the value of {code b}.
+		 * Updates the current {@code MediaPlayer}. Should be called prior to playback
+		 * of any media.
 		 * 
-		 * @param b if {@code true}, the app is unlocked; otherwise the app is locked
+		 * @param mediaPlayer {@code MediaPlayer} media will be played on
 		 */
-		public void setEnabled(boolean b) {
-			enabled = b;
+		public void setPlayer(MediaPlayer mediaPlayer) {
+			this.mediaPlayer = mediaPlayer;
 		}
 
 		/**
@@ -129,6 +132,5 @@ public class Playtime implements Runnable {
 		public void navigate(int i) {
 			tabbedPane.setSelectedIndex(i);
 		}
-
 	}
 }
