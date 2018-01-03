@@ -9,8 +9,8 @@ NHP enrichment app for playing audio, video, and mini games.
 - VLC
 
 ### Running the App
-Download the ``media`` folder and ``monkeyPlaytime.jar``. Make sure the file and folder are in the same folder (e.g. Desktop).
-Navigate to this folder in terminal and run ``java -jar monkeyPlaytime.jar`` to run the app.<br>
+Download the ``data`` and ``media`` folders and ``monkeyPlaytime.jar``. Make sure the file and folders are in the same folder (e.g. Desktop).
+Double click ``monkeyPlaytime.jar`` if your computer supports running files in this way. Alternatively, you can run the app from the command line by navigating to the folder you saved to and running ``java -jar monkeyPlaytime.jar``.
 
 ### Managing Sessions
 Each session will prompt the user to select the monkey who will be playing, therefore sessions should be restricted to a single monkey. When a session is over, simply close the app; all data is already saved.
