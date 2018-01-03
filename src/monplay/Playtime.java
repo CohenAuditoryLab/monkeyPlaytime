@@ -54,8 +54,12 @@ public class Playtime implements Runnable {
 	@Override
 	public void run() {
 		String monkey = getSessionMonkey();
-		String fileName = writeGeneralSessionData(monkey);
-		c = new ActionController(fileName);
+		if (monkey == null) {
+			exitWithMsg("No monkey was selected");
+		} else {
+			String fileName = writeGeneralSessionData(monkey);
+			c = new ActionController(fileName);
+		}
 		createAndShowGUI();
 	}
 	
@@ -65,19 +69,20 @@ public class Playtime implements Runnable {
 	 * @return name of monkey playing this session
 	 */
 	private String getSessionMonkey() {
+		String monkey = null;
+		
 		try (BufferedReader r = new BufferedReader(new FileReader("data/monkeys.txt"))) {
 			String[] monkeys = new String[Integer.parseInt(r.readLine())];
 			for (int i = 0; i < monkeys.length; i++) {
 				monkeys[i] = r.readLine().trim();
 			}
-			return (String) JOptionPane.showInputDialog(null, "Who is playing?", "Name",
+			monkey = (String) JOptionPane.showInputDialog(null, "Who is playing?", "Name",
 					JOptionPane.QUESTION_MESSAGE, null, monkeys, monkeys[0]);
 		} catch (IOException | NumberFormatException e) {
 			exitWithMsg("Error occurred trying to read monkeys.txt");
 		}
 		
-		exitWithMsg("No monkey was selected");
-		return null; // unreachable
+		return monkey;
 	}
 	
 	/**
