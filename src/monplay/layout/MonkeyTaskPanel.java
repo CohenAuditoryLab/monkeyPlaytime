@@ -19,7 +19,7 @@ import monplay.Playtime.NavController;
  */
 @SuppressWarnings("serial")
 public class MonkeyTaskPanel extends MonkeyPanel {
-	private int toneLevel = -1; // correct response: -1 = none, 0 = lo, 1 = hi
+	private int toneLevel = -1; // correct response: 0 = none, 1 = lo, 2 = hi
 
 	/**
 	 * Constructs a {@code MonkeyTaskPanel} with access to lock and unlock the app.
@@ -38,8 +38,9 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (c.isEnabled()) {
 					// select lo or hi tone randomly and play
-					toneLevel = ThreadLocalRandom.current().nextInt(0, 2);
-					t.playMedia(toneLevel, c);
+					toneLevel = ThreadLocalRandom.current().nextInt(0, 2) + 1;
+					c.saveAction(t, 0, toneLevel);
+					t.playMedia(toneLevel - 1, c);
 				}
 			}
 		});
@@ -47,16 +48,17 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 		add(tone);
 
 		// response buttons
-		for (int i = 0; i < 2; i++) {
+		for (int i = 1; i < 3; i++) {
 			int guess = i;
 			JButton temp = new JButton();
 			temp.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					c.saveAction(t, guess, -1);
 					if (guess == toneLevel) {
 						JOptionPane.showMessageDialog(null, "Reward!!!");
 					}
-					toneLevel = -1;
+					toneLevel = 0;
 				}
 			});
 			temp.setFocusable(false);
@@ -67,6 +69,6 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 	@Override
 	void back() {
 		super.back();
-		toneLevel = -1;
+		toneLevel = 0;
 	}
 }

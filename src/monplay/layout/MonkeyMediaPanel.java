@@ -38,6 +38,7 @@ public class MonkeyMediaPanel extends MonkeyPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (c.isEnabled()) {
+						c.saveAction(t, index, index);
 						t.playMedia(index, c);
 					}
 				}

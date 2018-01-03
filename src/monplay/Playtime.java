@@ -3,13 +3,21 @@ package monplay;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+
+import com.opencsv.CSVWriter;
 
 import monplay.layout.MonkeyMediaPanel;
 import monplay.layout.MonkeyPanel;
@@ -41,9 +49,15 @@ public class Playtime implements Runnable {
 	private final JFrame frame = new JFrame(); // main component frame, contains tabbedPane
 	private final JTabbedPane tabbedPane = new JTabbedPane(); // tabs for different pages
 	private final NavController nav = new NavController(); // navigation controller to pass
+	private CSVWriter writer; // csv writer for session data
 
 	@Override
 	public void run() {
+		writer = initializeDataFile();
+		createAndShowGUI();
+	}
+	
+	private void createAndShowGUI() {
 		JPanel home = new JPanel();
 		home.setLayout(new GridLayout(1, 3));
 
@@ -82,6 +96,61 @@ public class Playtime implements Runnable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+	
+	private CSVWriter initializeDataFile() {
+		String monkey = null;
+		
+		// get monkey name
+		try (BufferedReader r = new BufferedReader(new FileReader("data/monkeys.txt"))) {
+			String[] monkeys = new String[Integer.parseInt(r.readLine())];
+			for (int i = 0; i < monkeys.length; i++) {
+				monkeys[i] = r.readLine().trim();
+			}
+			monkey = (String) JOptionPane.showInputDialog(null, "Who is playing?", "Name",
+					JOptionPane.QUESTION_MESSAGE, null, monkeys, monkeys[0]);
+		} catch (IOException | NumberFormatException e) {
+			exitOnMsg("Error occurred trying to read monkeys.txt");
+		} finally {
+			if (monkey == null) {
+				exitOnMsg("No monkey was selected");
+			}
+		}
+		
+		// get time and file name
+		DateTimeFormatter dtfFileName = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH.mm");
+		DateTimeFormatter dtfInFile = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime time = LocalDateTime.now();
+		String fileName = "data/" + monkey + "_" + dtfFileName.format(time);
+		
+		// write file header
+		try (CSVWriter writer = new CSVWriter(new FileWriter(fileName))) {
+			writer.writeNext(new String[] {monkey, dtfInFile.format(time)});
+			for (int i = 1; i < 4; i++) {
+				MonkeyPanelType t = MonkeyPanelType.getType(i);
+				String[] mediaFileNames = new String[i == 3 ? 3 : 6];
+				mediaFileNames[0] = t.toString();
+				for (int j = 1; j < mediaFileNames.length; j++) {
+					mediaFileNames[j] = t.getMediaName(j - 1);
+				}
+				writer.writeNext(mediaFileNames);
+			}
+			return writer;
+		} catch (IOException e) {
+			exitOnMsg("Error occurred trying to write file header");
+		}
+		throw new Error(); // unreachable state
+	}
+	
+	/**
+	 * Display an error message to user before exiting app.
+	 * 
+	 * @param msg error message to display
+	 */
+	private static void exitOnMsg(String msg) {
+		JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+		System.exit(0);
+	}
+	
 
 	public static void main(String[] args) {
 		try {
@@ -89,7 +158,7 @@ public class Playtime implements Runnable {
 			new NativeDiscovery().discover(); // discover vlcj dependencies
 			SwingUtilities.invokeLater(new Playtime()); // create and show app
 		} catch (IOException e) {
-			e.printStackTrace();
+			exitOnMsg("Error occurred trying to read mediaFiles.txt");
 		}
 	}
 
@@ -131,6 +200,19 @@ public class Playtime implements Runnable {
 		 */
 		public void navigate(int i) {
 			tabbedPane.setSelectedIndex(i);
+		}
+		
+		/**
+		 * Writes a user action to the data file.
+		 * 
+		 * @param t type of panel action occurred in
+		 * @param button index of button pressed
+		 * @param media index of media played
+		 */
+		public void saveAction(MonkeyPanelType t, int button, int media) {
+			String[] actionData = new String[] 
+					{t.toString(), Integer.toString(button), Integer.toString(media)};
+			writer.writeNext(actionData);
 		}
 	}
 }

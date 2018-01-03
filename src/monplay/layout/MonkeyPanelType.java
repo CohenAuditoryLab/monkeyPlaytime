@@ -68,6 +68,16 @@ public enum MonkeyPanelType {
 			MonkeyMediaPlayer.playAudio(mediaFile, c);
 		}
 	}
+	
+	/**
+	 * Returns the name of the media with the given index.
+	 * 
+	 * @param i media index
+	 * @return media file name
+	 */
+	public String getMediaName(int i) {
+		return media[i];
+	}
 
 	/**
 	 * Returns the {@code MonkeyPanelType} associated with the given tab index.
