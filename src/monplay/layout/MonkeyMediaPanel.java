@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import monplay.Playtime.NavController;
+import monplay.Playtime.ActionController;
 
 /**
  * {@code MonkeyMediaPanel} is a {@code MonkeyPanel} setup for a 2-by-3 grid of
@@ -26,7 +26,7 @@ public class MonkeyMediaPanel extends MonkeyPanel {
 	 * @param c navigation controller to lock and unlock
 	 * @throws IllegalArgumentException if {@code t} is set to {@code TASK}
 	 */
-	public MonkeyMediaPanel(MonkeyPanelType t, NavController c) {
+	public MonkeyMediaPanel(MonkeyPanelType t, ActionController c) {
 		super(t, c, 2, 3);
 		if (t.equals(MonkeyPanelType.TASK)) {
 			throw new IllegalArgumentException();

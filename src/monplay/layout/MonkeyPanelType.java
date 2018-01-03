@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 
 import monplay.MonkeyMediaPlayer;
 import monplay.Playtime;
+import monplay.Playtime.ActionController;
 
 /**
  * Encapsulates information for different media types, including icons and media
@@ -60,7 +61,7 @@ public enum MonkeyPanelType {
 	 * @param i media index
 	 * @param c navigation controller to unlock
 	 */
-	public void playMedia(int i, Playtime.NavController c) {
+	public void playMedia(int i, ActionController c) {
 		String mediaFile = new File("media/" + media[i]).getAbsolutePath();
 		if (this.equals(MonkeyPanelType.VIDEO)) {
 			MonkeyMediaPlayer.playVideo(mediaFile, c);

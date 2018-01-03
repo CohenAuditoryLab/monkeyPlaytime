@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import monplay.Playtime.NavController;
+import monplay.Playtime.ActionController;
 
 /**
  * {@code MonkeyTaskPanel} is a {@code MonkeyPanel} setup for a 2-by-2 grid of
@@ -19,7 +19,7 @@ import monplay.Playtime.NavController;
  */
 @SuppressWarnings("serial")
 public class MonkeyTaskPanel extends MonkeyPanel {
-	private int toneLevel = -1; // correct response: 0 = none, 1 = lo, 2 = hi
+	private int toneLevel = -1; // correct response: -1 = none, 0 = lo, 1 = hi
 
 	/**
 	 * Constructs a {@code MonkeyTaskPanel} with access to lock and unlock the app.
@@ -28,7 +28,7 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 	 * 
 	 * @param c navigation controller to lock and unlock
 	 */
-	public MonkeyTaskPanel(NavController c) {
+	public MonkeyTaskPanel(ActionController c) {
 		super(MonkeyPanelType.TASK, c, 2, 2);
 
 		// tone button
@@ -38,9 +38,9 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (c.isEnabled()) {
 					// select lo or hi tone randomly and play
-					toneLevel = ThreadLocalRandom.current().nextInt(0, 2) + 1;
+					toneLevel = ThreadLocalRandom.current().nextInt(0, 2);
 					c.saveAction(t, 0, toneLevel);
-					t.playMedia(toneLevel - 1, c);
+					t.playMedia(toneLevel, c);
 				}
 			}
 		});
@@ -48,7 +48,7 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 		add(tone);
 
 		// response buttons
-		for (int i = 1; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			int guess = i;
 			JButton temp = new JButton();
 			temp.addActionListener(new ActionListener() {
@@ -58,7 +58,7 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 					if (guess == toneLevel) {
 						JOptionPane.showMessageDialog(null, "Reward!!!");
 					}
-					toneLevel = 0;
+					toneLevel = -1;
 				}
 			});
 			temp.setFocusable(false);
@@ -69,6 +69,6 @@ public class MonkeyTaskPanel extends MonkeyPanel {
 	@Override
 	void back() {
 		super.back();
-		toneLevel = 0;
+		toneLevel = -1;
 	}
 }

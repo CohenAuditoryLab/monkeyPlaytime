@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import monplay.Playtime.ActionController;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -28,7 +29,7 @@ public class MonkeyMediaPlayer {
 	 * @param fileName name of audio media file
 	 * @param c navigation controller to unlock
 	 */
-	public static void playAudio(String fileName, Playtime.NavController c) {
+	public static void playAudio(String fileName, ActionController c) {
 		AudioMediaPlayerComponent mediaPlayerComponent = new AudioMediaPlayerComponent();
 		c.setPlayer(mediaPlayerComponent.getMediaPlayer());
 		mediaPlayerComponent.getMediaPlayer().playMedia(fileName);
@@ -41,7 +42,7 @@ public class MonkeyMediaPlayer {
 	 * @param fileName name of video media file
 	 * @param c navigation controller to unlock
 	 */
-	public static void playVideo(String fileName, Playtime.NavController c) {
+	public static void playVideo(String fileName, ActionController c) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -57,7 +58,7 @@ public class MonkeyMediaPlayer {
 	 * @param fileName name of video media file
 	 * @param c navigation controller to unlock
 	 */
-	private static void playVideoThreaded(String fileName, Playtime.NavController c) {
+	private static void playVideoThreaded(String fileName, ActionController c) {
 		JFrame frame = new JFrame();
 		EmbeddedMediaPlayerComponent mediaPlayerComponent = 
 				new EmbeddedMediaPlayerComponent();

@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import monplay.Playtime.NavController;
+import monplay.Playtime.ActionController;
 
 /**
  * {@code MonkeyPanel} is a lightweight {@code JPanel} with additional
@@ -23,7 +23,7 @@ import monplay.Playtime.NavController;
 @SuppressWarnings("serial")
 public abstract class MonkeyPanel extends JPanel {
 	final MonkeyPanelType t;
-	final NavController c;
+	final ActionController c;
 
 	/**
 	 * Constructs a {@code MonkeyPanel} with access to lock and unlock the app. The
@@ -34,7 +34,7 @@ public abstract class MonkeyPanel extends JPanel {
 	 * @param height number of buttons in grid vertically
 	 * @param width number of buttons in grid horizontally
 	 */
-	public MonkeyPanel(MonkeyPanelType t, NavController c, int height, int width) {
+	public MonkeyPanel(MonkeyPanelType t, ActionController c, int height, int width) {
 		this.c = c;
 		this.t = t;
 		setLayout(new GridLayout(height, width));
