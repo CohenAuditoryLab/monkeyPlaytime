@@ -53,7 +53,7 @@ public class MonkeyTaskPanel extends MonkeyPanel {
             temp.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    c.saveAction(t, guess, -1);
+                    c.saveAction(t, guess + 1, -1);
                     if (guess == toneLevel) {
                         JOptionPane.showMessageDialog(null, "Reward!!!");
                     }
